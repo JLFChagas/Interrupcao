@@ -40,13 +40,19 @@ add_executable(Interrupcao Interrupcao.c )
 pico_set_program_name(Interrupcao "Interrupcao")
 pico_set_program_version(Interrupcao "0.1")
 
+# Generate PIO header
+pico_generate_pio_header(Interrupcao ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
+
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(Interrupcao 0)
-pico_enable_stdio_usb(Interrupcao 0)
+pico_enable_stdio_uart(Interrupcao 1)
+pico_enable_stdio_usb(Interrupcao 1)
 
 # Add the standard library to the build
 target_link_libraries(Interrupcao
-        pico_stdlib)
+        pico_stdlib
+        hardware_pio
+        hardware_clocks
+        )
 
 # Add the standard include files to the build
 target_include_directories(Interrupcao PRIVATE
@@ -54,9 +60,8 @@ target_include_directories(Interrupcao PRIVATE
 )
 
 # Add any user requested libraries
-target_link_libraries(Interrupcao 
+target_link_libraries(Interrupcao
         
         )
 
 pico_add_extra_outputs(Interrupcao)
-
